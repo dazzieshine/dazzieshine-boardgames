@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настольная игра - Пугачев Данил</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="game-header">
+            <h1>Настольная Игра <span>"Бродилка"</span></h1>
+            <p>Перетаскивайте фишки по извилистому маршруту. Следите за стрелочками направления!</p>
+        </header>
+
+        <div class="game-wrapper">
+            <aside class="sidebar">
+                <div class="panel-card">
+                    <h3><i class="fa-solid fa-users"></i> Игроки (Фишки)</h3>
+                    <p class="panel-sub">Перетащите свою фишку на поле</p>
+                    <div class="drop-zone chips-source" id="zone-source">
+                        <div class="player-slot">
+                            <span class="p-name p1">Игрок 1</span>
+                            <img src="images/chip1.png" draggable="true" data-id="chip1" class="card chip" alt="Фишка 1">
+                        </div>
+                        <div class="player-slot">
+                            <span class="p-name p2">Игрок 2</span>
+                            <img src="images/chip2.png" draggable="true" data-id="chip2" class="card chip" alt="Фишка 2">
+                        </div>
+                        <div class="player-slot">
+                            <span class="p-name p3">Игрок 3</span>
+                            <img src="images/chip3.png" draggable="true" data-id="chip3" class="card chip" alt="Фишка 3">
+                        </div>
+                        <div class="player-slot">
+                            <span class="p-name p4">Игрок 4</span>
+                            <img src="images/chip4.png" draggable="true" data-id="chip4" class="card chip" alt="Фишка 4">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <h3><i class="fa-solid fa-dice"></i> Бросок Кубика</h3>
+                    <div class="dice-wrapper">
+                        <div class="dice" id="dice">
+                            <span class="dice-val" id="diceValue">?</span>
+                        </div>
+                        <button class="button-roll" id="rollButton"><i class="fa-solid fa-rotate"></i> Бросить (Space)</button>
+                    </div>
+                </div>
+
+                <div class="panel-card" id="menuWrapper">
+                    <div class="trigger"><i class="fa-solid fa-circle-question"></i> Наведи, чтобы узнать правила</div>
+                    <div class="dropdown" id="dropdown">
+                        <p>
+                            1. Игроки по очереди бросают кубик.
+                            <br>2. Перетаскивают свою фишку на соответствующее количество клеток вперед.
+                            <br>3. Двигайтесь строго по указательным стрелкам.
+                            <br>4. Побеждает тот, кто первым дойдет до 20-й клетки!
+                        </p>
+                    </div>
+                </div>
+
+            </aside>
+
+            <main class="board-area">
+                <div class="panel-card">
+                    <h3><i class="fa-solid fa-map"></i> Карта Пути</h3>
+
+                    <div class="snake-board">
+
+                        <!-- Ячейки 1-5 -->
+                        <div class="cell drop-zone start" data-step="1" data-effect="Старт!">
+                            <span class="cell-num">1</span>
+                            <span class="cell-tag">СТАРТ</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="2" data-effect="Спокойный участок пути.">
+                            <span class="cell-num">2</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="3" data-effect="Тайный лаз: +2 клетки вперед!">
+                            <span class="cell-num">3</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="4" data-effect="Передышка: пропуск следующего хода.">
+                            <span class="cell-num">4</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="5" data-effect="Поворот: спускаемся на второй ряд.">
+                            <span class="cell-num">5</span>
+                            <i class="fa-solid fa-arrow-down arr arr-d"></i>
+                        </div>
+
+                        <!-- Ячйки 6-10 -->
+                        <div class="cell drop-zone" data-step="6" data-effect="Песчаный занос: -1 шаг назад.">
+                            <span class="cell-num">6</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="7" data-effect="Ускорение: повторный бросок кубика!">
+                            <span class="cell-num">7</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="8" data-effect="Обычная клетка.">
+                            <span class="cell-num">8</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="9" data-effect="Засада: пропуск следующего хода.">
+                            <span class="cell-num">9</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="10" data-effect="Поворот: спускаемся на третий ряд.">
+                            <span class="cell-num">10</span>
+                            <i class="fa-solid fa-arrow-down arr arr-d"></i>
+                        </div>
+
+                        <!-- Ячейки 11-15 -->
+                        <div class="cell drop-zone" data-step="11" data-effect="Ровная дорога.">
+                            <span class="cell-num">11</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="12"
+                            data-effect="Ловушка с разбойниками: пропуск следующего хода.">
+                            <span class="cell-num">12</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="13" data-effect="Портал: перенос на клетку №16!">
+                            <span class="cell-num">13</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="14" data-effect="Обычная клетка.">
+                            <span class="cell-num">14</span>
+                            <i class="fa-solid fa-arrow-right arr arr-r"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="15" data-effect="Финальный поворот на последний ряд!">
+                            <span class="cell-num">15</span>
+                            <i class="fa-solid fa-arrow-down arr arr-d"></i>
+                        </div>
+
+                        <!-- Ячейки 16-20 -->
+                        <div class="cell drop-zone" data-step="16" data-effect="Финишная прямая!">
+                            <span class="cell-num">16</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="17"
+                            data-effect="Привал у костра: пропуск следующего хода.">
+                            <span class="cell-num">17</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="18" data-effect="Опасный обрыв: будьте осторожны!">
+                            <span class="cell-num">18</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone" data-step="19" data-effect="Последний шаг перед победой!">
+                            <span class="cell-num">19</span>
+                            <i class="fa-solid fa-arrow-left arr arr-l"></i>
+                        </div>
+                        <div class="cell drop-zone finish" data-step="20" data-effect="Финиш: поздравляем с победой!">
+                            <span class="cell-num">20</span>
+                            <span class="cell-tag">ФИНИШ</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <h3><i class="fa-solid fa-scroll"></i> События</h3>
+                    <div class="log-box" id="logBox">
+                        Игроки, бросайте кубик и делайте ходы по очереди...
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="footer">
+            <p> Веб-Программирование, 5 семестр</p>
+            <p> Пугачев Данил Максимович, 3-ТИД-10</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
